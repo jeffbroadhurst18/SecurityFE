@@ -1,0 +1,9 @@
+<h1>Home</h1>
+<p>You're logged in with Angular 6</p>
+<div>
+  Values from API
+  <ul>
+    <li *ngFor="let user of users">{{user.City}} {{user.County}} {{user.Population}}</li>
+  </ul>
+</div>
+<p><a [routerLink]="['/login']">Logout</a></p>

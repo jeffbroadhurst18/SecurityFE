@@ -11,6 +11,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<User[]>(`${config.apiUrl}/users`); //use $ syntax to do string substitution.
+    return this.http.get<User[]>(`${config.apiUrl}/api/values`); //use $ syntax to do string substitution.
   }
 }

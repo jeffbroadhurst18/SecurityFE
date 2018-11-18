@@ -1,6 +1,10 @@
 <!-- main app container -->
 <div class="jumbotron">
     <div class="container">
+        <p><a [routerLink]="['/user']">User</a></p>
+        <p><a [routerLink]="['/parkrun']">Parkrun</a></p>
+        <p><a [routerLink]="['/login']" *ngIf="!isLoggedIn">Login</a></p>
+        <p><a [routerLink]="['/logout']" *ngIf="isLoggedIn">Logout</a></p>
         <div class="row">
             <div class="col-sm-6 offset-sm-3">
                 <router-outlet></router-outlet>

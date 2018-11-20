@@ -1,3 +1,9 @@
-<p>
-  parkrun works!
-</p>
+<div>
+  Values from Parkrun API
+  <ul>
+    <li *ngFor="let parkrun of parkruns">
+        {{parkrun.race}} {{parkrun.raceDate}} {{parkrun.position}} {{parkrun.grade}} {{parkrun.minutes}}:{{parkrun.seconds}}
+    </li>
+  </ul>
+</div>
+ 

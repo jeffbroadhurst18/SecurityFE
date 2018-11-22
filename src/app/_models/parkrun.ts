@@ -6,5 +6,7 @@ export class Parkrun {
     grade: string;
     minutes: number;
     seconds: number;
+    display_minutes: string;
+    display_seconds: string;
 }
 

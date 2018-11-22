@@ -1,9 +1,19 @@
-<div>
-  Values from Parkrun API
-  <ul>
-    <li *ngFor="let parkrun of parkruns">
-        {{parkrun.race}} {{parkrun.raceDate}} {{parkrun.position}} {{parkrun.grade}} {{parkrun.minutes}}:{{parkrun.seconds}}
-    </li>
-  </ul>
-</div>
- 
+<h2>Delamere Parkrun</h2>
+<table class="table">
+<thead>
+  <th><a (click)="sortByDate()">Race No. <fa-icon [icon]="faArrowDown" *ngIf="dateOrderAsc"></fa-icon><fa-icon [icon]="faArrowUp" *ngIf="!dateOrderAsc"></fa-icon></a></th>
+  <th>Race Date</th>
+  <th>Position</th>
+  <th>Grade</th>
+  <th>Time</th>
+</thead>
+<tbody>
+  <tr *ngFor="let parkrun of parkruns">
+    <td>{{parkrun.race}}</td>
+    <td>{{parkrun.raceDate | date:"dd/MM/yyyy"}}</td>
+    <td>{{parkrun.position}}</td>
+    <td>{{parkrun.grade | grade}}%</td>
+    <td>{{parkrun.minutes}}:{{parkrun.seconds | parkrun}}</td>
+  </tr>
+</tbody>
+</table>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faArrowDown,faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 import { first } from 'rxjs/operators';
 
@@ -7,6 +7,7 @@ import { Parkrun } from '../_models';
 import { DataService } from '../_services';
 import { ParkrunPipe } from './parkrun.pipe';
 import { GradePipe } from './grade.pipe';
+import { SortOrder } from './sort.order';
 
 @Component({
   selector: 'app-parkrun',
@@ -16,30 +17,115 @@ import { GradePipe } from './grade.pipe';
 
 export class ParkrunComponent implements OnInit {
 
-  constructor(private dataService: DataService) { 
-      
+  constructor(private dataService: DataService) {
+
   }
-faArrowDown = faArrowDown;
-faArrowUp = faArrowUp;
+  faArrowDown = faArrowDown;
+  faArrowUp = faArrowUp;
+  SortOrder = SortOrder; //so we can use in the template
   parkruns: Parkrun[] = [];
-  dateOrderAsc: boolean;
+  sortOrder: SortOrder;
 
   ngOnInit() {
-    // this.UserService.getAll().pipe(first()).subscribe(users => { this.users = users; });
-    this.dataService.getAllParkruns().pipe(first()).subscribe(parkruns => { this.parkruns = parkruns });
-    //User service returns a stream of observables. Each item being an array of users
-    //We take the first array of Users and dubscribe to it in order to use the values therein.
-    this.dateOrderAsc = true;
-   }
+    this.dataService.getAllParkruns().pipe(first()).subscribe(parkruns => { 
+      this.parkruns = parkruns;
+       this.addRank();
+       });
+    //Service returns a stream of observables. Each item being an array of runs
+    //We take the first array of Runs and subscribe to it in order to use the values therein.
+    this.sortOrder = SortOrder.race_desc;
+  }
 
-  sortByDate() {
-    if (this.dateOrderAsc) {
-      this.parkruns.sort(this.compareRaceAsc);  
+  sortByRace() {
+    if (this.sortOrder === SortOrder.race_asc) {
+      this.sortOrder = SortOrder.race_desc;
+    } else if (this.sortOrder === SortOrder.race_desc) {
+      this.sortOrder = SortOrder.race_asc;
+    } else {
+      this.sortOrder = SortOrder.race_asc;
     }
-    else {
-      this.parkruns.sort(this.compareRaceDesc);  
+    this.sortRows();
+  }
+
+  sortByPosition() {
+    if (this.sortOrder === SortOrder.position_asc) {
+      this.sortOrder = SortOrder.position_desc;
+    } else if (this.sortOrder === SortOrder.position_desc) {
+      this.sortOrder = SortOrder.position_asc;
+    } else {
+      this.sortOrder = SortOrder.position_asc;
     }
-    this.dateOrderAsc = !this.dateOrderAsc;
+    this.sortRows();
+  }
+
+  sortByGrade() {
+    if (this.sortOrder === SortOrder.grade_asc) {
+      this.sortOrder = SortOrder.grade_desc;
+    } else if (this.sortOrder === SortOrder.grade_desc) {
+      this.sortOrder = SortOrder.grade_asc;
+    } else {
+      this.sortOrder = SortOrder.grade_asc;
+    }
+    this.sortRows();
+  }
+
+  sortByTime() {
+    if (this.sortOrder === SortOrder.time_asc) {
+      this.sortOrder = SortOrder.time_desc;
+    } else if (this.sortOrder === SortOrder.time_desc) {
+      this.sortOrder = SortOrder.time_asc;
+    } else {
+      this.sortOrder = SortOrder.time_asc;
+    }
+    this.sortRows();
+  }
+
+  sortRows() {
+    switch (this.sortOrder) {
+      case SortOrder.race_asc: {
+        this.parkruns.sort(this.compareRaceAsc);
+        break;
+      }
+      case SortOrder.race_desc: {
+        this.parkruns.sort(this.compareRaceDesc);
+        break;
+      }
+      case SortOrder.position_asc: {
+        this.parkruns.sort(this.comparePositionAsc);
+        break;
+      }
+      case SortOrder.position_desc: {
+        this.parkruns.sort(this.comparePositionDesc);
+        break;
+      }
+      case SortOrder.grade_asc: {
+        this.parkruns.sort(this.compareGradeAsc);
+        break;
+      }
+      case SortOrder.grade_desc: {
+        this.parkruns.sort(this.compareGradeDesc);
+        break;
+      }
+      case SortOrder.time_asc: {
+        this.parkruns.sort(this.compareTimeAsc);
+        break;
+      }
+      case SortOrder.time_desc: {
+        this.parkruns.sort(this.compareTimeDesc);
+        break;
+      }
+      default: {
+        this.parkruns.sort(this.compareRaceAsc)
+        break;
+      }
+    }
+   this.addRank();
+  }
+
+  addRank() {
+    for (var i = 0; i < this.parkruns.length; i++) {
+      (this.parkruns[i]).rank = i + 1;
+    }
   }
 
   compareRaceAsc(a: Parkrun, b: Parkrun) {
@@ -58,5 +144,52 @@ faArrowUp = faArrowUp;
     return 0;
   }
 
+  comparePositionAsc(a: Parkrun, b: Parkrun) {
+    if (a.position < b.position)
+      return 1;
+    if (a.position > b.position)
+      return -1;
+    return 0;
+  }
+
+  comparePositionDesc(a: Parkrun, b: Parkrun) {
+    if (a.position < b.position)
+      return -1;
+    if (a.position > b.position)
+      return 1;
+    return 0;
+  }
+
+  compareGradeAsc(a: Parkrun, b: Parkrun) {
+    if (a.grade < b.grade)
+      return 1;
+    if (a.grade > b.grade)
+      return -1;
+    return 0;
+  }
+
+  compareGradeDesc(a: Parkrun, b: Parkrun) {
+    if (a.grade < b.grade)
+      return -1;
+    if (a.grade > b.grade)
+      return 1;
+    return 0;
+  }
+
+  compareTimeAsc(a: Parkrun, b: Parkrun) {
+    if ((a.minutes < b.minutes) || ((a.minutes === b.minutes) && (a.seconds < b.seconds)))
+      return 1;
+    if ((a.minutes > b.minutes) || ((a.minutes === b.minutes) && (a.seconds > b.seconds)))
+      return -1;
+    return 0;
+  }
+
+  compareTimeDesc(a: Parkrun, b: Parkrun) {
+    if ((a.minutes < b.minutes) || ((a.minutes === b.minutes) && (a.seconds < b.seconds)))
+      return -1;
+    if ((a.minutes > b.minutes) || ((a.minutes === b.minutes) && (a.seconds > b.seconds)))
+      return 1;
+    return 0;
+  }
 
 }

@@ -1,19 +1,29 @@
 <h2>Delamere Parkrun</h2>
-<table class="table">
-<thead>
-  <th><a (click)="sortByDate()">Race No. <fa-icon [icon]="faArrowDown" *ngIf="dateOrderAsc"></fa-icon><fa-icon [icon]="faArrowUp" *ngIf="!dateOrderAsc"></fa-icon></a></th>
+<table class="table" *ngIf="sortOrder">
+ <thead>
+   <th></th>
+  <th [class.isSelectedHead]="sortOrder===SortOrder.race_asc || sortOrder===SortOrder.race_desc" class="canSelect"><a (click)="sortByRace()">
+    Race No. <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.race_asc"></fa-icon>
+    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.race_desc"></fa-icon></a></th>
   <th>Race Date</th>
-  <th>Position</th>
-  <th>Grade</th>
-  <th>Time</th>
-</thead>
-<tbody>
+  <th [class.isSelectedHead]="sortOrder===SortOrder.position_asc || sortOrder===SortOrder.position_desc" class="canSelect"><a (click)="sortByPosition()">
+    Position <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.position_asc"></fa-icon>
+    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.position_desc"></fa-icon></a></th>
+  <th [class.isSelectedHead]="sortOrder===SortOrder.grade_asc || sortOrder===SortOrder.grade_desc" class="canSelect"><a (click)="sortByGrade()">
+    Grade <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.grade_asc"></fa-icon>
+    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.grade_desc"></fa-icon></a></th>
+  <th [class.isSelectedHead]="sortOrder===SortOrder.time_asc || sortOrder===SortOrder.time_desc" class="canSelect"><a (click)="sortByTime()">
+    Time <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.time_asc"></fa-icon>
+    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.time_desc"></fa-icon></a></th>
+</thead> 
+<tbody class="standard">
   <tr *ngFor="let parkrun of parkruns">
-    <td>{{parkrun.race}}</td>
+    <td><strong>{{parkrun.rank}}</strong></td>
+    <td [class.isSelected]="sortOrder===SortOrder.race_asc || sortOrder===SortOrder.race_desc">{{parkrun.race}}</td>
     <td>{{parkrun.raceDate | date:"dd/MM/yyyy"}}</td>
-    <td>{{parkrun.position}}</td>
-    <td>{{parkrun.grade | grade}}%</td>
-    <td>{{parkrun.minutes}}:{{parkrun.seconds | parkrun}}</td>
+     <td [class.isSelected]="sortOrder===SortOrder.position_asc || sortOrder===SortOrder.position_desc">{{parkrun.position}}</td>
+    <td [class.isSelected]="sortOrder===SortOrder.grade_asc || sortOrder===SortOrder.grade_desc">{{parkrun.grade | grade}}%</td>
+    <td [class.isSelected]="sortOrder===SortOrder.time_asc || sortOrder===SortOrder.time_desc">{{parkrun.minutes}}:{{parkrun.seconds | parkrun}}</td> 
   </tr>
 </tbody>
 </table>

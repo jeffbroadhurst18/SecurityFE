@@ -5,3 +5,20 @@ table td {
 table th {
     padding: 0;
 }
+
+.isSelected {
+    background-color: lightgrey;
+}
+
+.isSelectedHead {
+    font-weight: bold;
+    background-color: lightgrey;
+}
+
+.canSelect {
+    color: darkblue;
+}
+
+.standard td {
+    width:100px;
+}

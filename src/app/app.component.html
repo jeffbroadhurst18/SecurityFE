@@ -1,14 +1,20 @@
 <!-- main app container -->
-<div class="jumbotron">
-    <div class="container">
-        <p><a [routerLink]="['/user']">User</a></p>
-        <p><a [routerLink]="['/parkrun']">Parkrun</a></p>
-        <p><a [routerLink]="['/login']" *ngIf="!isLoggedIn">Login</a></p>
-        <p><a [routerLink]="['/logout']" *ngIf="isLoggedIn">Logout</a></p>
-        <div class="row">
-            <div class="col-sm-6 offset-sm-3">
-                <router-outlet></router-outlet>
-            </div>
-        </div>
+<div class="container">
+    <div class="row">
+ <nav>
+    <ul>
+        <li class="title"><a [routerLink]="['/user']">User</a></li>
+        <li class="title"><a [routerLink]="['/parkrun']">Parkrun</a></li>
+        <li class="title"><a [routerLink]="['/login']" *ngIf="!isLoggedIn">Login</a></li>
+        <li class="title"><a [routerLink]="['/logout']" *ngIf="isLoggedIn">Logout</a></li>
+    </ul>
+</nav> 
     </div>
-</div>
+<div class="row" id="show-this">
+        <!-- <div class="row"> -->
+             <div class="col-sm-6 offset-sm-3">  
+                <router-outlet></router-outlet>
+           </div> 
+        <!-- </div> -->
+ </div> 
+</div>  

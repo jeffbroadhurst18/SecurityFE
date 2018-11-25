@@ -20,4 +20,9 @@ export class DataService {
     var runs = this.http.get<Parkrun[]>(`${config.apiUrl}/api/parkrun`);
     return runs;
   }
+
+  getParkrunsByYear(year: string) {
+    var runs = this.http.get<Parkrun[]>(`${config.apiUrl}/api/parkrun/year/` + year);
+    return runs;
+  }
 }

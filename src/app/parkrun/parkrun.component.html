@@ -1,29 +1,68 @@
-<h2>Delamere Parkrun</h2>
-<table class="table" *ngIf="sortOrder">
- <thead>
-   <th></th>
-  <th [class.isSelectedHead]="sortOrder===SortOrder.race_asc || sortOrder===SortOrder.race_desc" class="canSelect"><a (click)="sortByRace()">
-    Race No. <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.race_asc"></fa-icon>
-    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.race_desc"></fa-icon></a></th>
-  <th>Race Date</th>
-  <th [class.isSelectedHead]="sortOrder===SortOrder.position_asc || sortOrder===SortOrder.position_desc" class="canSelect"><a (click)="sortByPosition()">
-    Position <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.position_asc"></fa-icon>
-    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.position_desc"></fa-icon></a></th>
-  <th [class.isSelectedHead]="sortOrder===SortOrder.grade_asc || sortOrder===SortOrder.grade_desc" class="canSelect"><a (click)="sortByGrade()">
-    Grade <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.grade_asc"></fa-icon>
-    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.grade_desc"></fa-icon></a></th>
-  <th [class.isSelectedHead]="sortOrder===SortOrder.time_asc || sortOrder===SortOrder.time_desc" class="canSelect"><a (click)="sortByTime()">
-    Time <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.time_asc"></fa-icon>
-    <fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.time_desc"></fa-icon></a></th>
-</thead> 
-<tbody class="standard">
-  <tr *ngFor="let parkrun of parkruns">
-    <td><strong>{{parkrun.rank}}</strong></td>
-    <td [class.isSelected]="sortOrder===SortOrder.race_asc || sortOrder===SortOrder.race_desc">{{parkrun.race}}</td>
-    <td>{{parkrun.raceDate | date:"dd/MM/yyyy"}}</td>
-     <td [class.isSelected]="sortOrder===SortOrder.position_asc || sortOrder===SortOrder.position_desc">{{parkrun.position}}</td>
-    <td [class.isSelected]="sortOrder===SortOrder.grade_asc || sortOrder===SortOrder.grade_desc">{{parkrun.grade | grade}}%</td>
-    <td [class.isSelected]="sortOrder===SortOrder.time_asc || sortOrder===SortOrder.time_desc">{{parkrun.minutes}}:{{parkrun.seconds | parkrun}}</td> 
-  </tr>
-</tbody>
-</table>
+<div class="container">
+	<div class="row">
+    <div class="col-sm-9">
+		  <h2>Delamere Parkrun</h2>
+		  <table class="table" *ngIf="sortOrder">
+			<thead>
+			<th></th>
+			<th [class.isSelectedHead]="sortOrder===SortOrder.race_asc || sortOrder===SortOrder.race_desc" class="canSelect">
+				<a (click)="sortByRace()">
+					Race No. <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.race_asc"></fa-icon>
+					<fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.race_desc"></fa-icon>
+				</a>
+			</th>
+			<th>Race Date</th>
+			<th [class.isSelectedHead]="sortOrder===SortOrder.position_asc || sortOrder===SortOrder.position_desc" class="canSelect">
+				<a (click)="sortByPosition()">
+					Position <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.position_asc"></fa-icon>
+					<fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.position_desc"></fa-icon>
+				</a>
+			</th>
+			<th [class.isSelectedHead]="sortOrder===SortOrder.grade_asc || sortOrder===SortOrder.grade_desc" class="canSelect">
+				<a (click)="sortByGrade()">
+					Grade <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.grade_asc"></fa-icon>
+					<fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.grade_desc"></fa-icon>
+				</a>
+			</th>
+			<th [class.isSelectedHead]="sortOrder===SortOrder.time_asc || sortOrder===SortOrder.time_desc" class="canSelect">
+				<a (click)="sortByTime()">
+					Time <fa-icon [icon]="faArrowDown" *ngIf="sortOrder===SortOrder.time_asc"></fa-icon>
+					<fa-icon [icon]="faArrowUp" *ngIf="sortOrder===SortOrder.time_desc"></fa-icon>
+				</a>
+			</th>
+			</thead>
+			<tbody class="standard">
+				<tr *ngFor="let parkrun of parkruns">
+					<td><strong>{{parkrun.rank}}</strong></td>
+					<td [class.isSelected]="sortOrder===SortOrder.race_asc || sortOrder===SortOrder.race_desc">{{parkrun.race}}</td>
+					<td>{{parkrun.raceDate | date:"dd/MM/yyyy"}}</td>
+					<td [class.isSelected]="sortOrder===SortOrder.position_asc || sortOrder===SortOrder.position_desc">{{parkrun.position}}</td>
+					<td [class.isSelected]="sortOrder===SortOrder.grade_asc || sortOrder===SortOrder.grade_desc">{{parkrun.grade | grade}}%</td>
+					<td [class.isSelected]="sortOrder===SortOrder.time_asc || sortOrder===SortOrder.time_desc">{{parkrun.minutes}}:{{parkrun.seconds | parkrun}}</td>
+				</tr>
+			</tbody>
+    </table>
+    </div>
+		<div class="col-sm-3 select-list">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p>
+              <input type="radio" value="Year" name="choice" required [(ngModel)]="choice"> Year
+              <input type="radio" value="Grade" name="choice" required [(ngModel)]="choice"> Grade
+              <input type="radio" value="Time" name="choice" required [(ngModel)]="choice"> Time
+              <input type="radio" value="None" name="choice" required [(ngModel)]="choice"> None
+            </p>
+          </div>
+        </div>
+      <div class="row">
+          <div class="col-md-12">
+              <select  id="years" [(ngModel)]="year" (change)="filterByYear()" required>
+                <option *ngFor="let yr of years" [value]="yr">{{yr}}</option>
+              </select>
+          </div>
+      </div>
+      </div>
+		</div>
+	</div>
+</div>

@@ -22,3 +22,7 @@ table th {
 .standard td {
     width:100px;
 }
+
+.select-list {
+    padding-top: 100px;
+}

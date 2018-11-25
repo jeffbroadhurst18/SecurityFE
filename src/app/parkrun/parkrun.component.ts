@@ -18,22 +18,34 @@ import { SortOrder } from './sort.order';
 export class ParkrunComponent implements OnInit {
 
   constructor(private dataService: DataService) {
-
+    this.years = [2015, 2016, 2017, 2018];
   }
   faArrowDown = faArrowDown;
   faArrowUp = faArrowUp;
   SortOrder = SortOrder; //so we can use in the template
   parkruns: Parkrun[] = [];
   sortOrder: SortOrder;
+  choice: string;
+  years: number[];
+  year: number;
 
   ngOnInit() {
-    this.dataService.getAllParkruns().pipe(first()).subscribe(parkruns => { 
+    this.dataService.getAllParkruns().pipe(first()).subscribe(parkruns => {
       this.parkruns = parkruns;
-       this.addRank();
-       });
+      this.addRank();
+    });
     //Service returns a stream of observables. Each item being an array of runs
     //We take the first array of Runs and subscribe to it in order to use the values therein.
     this.sortOrder = SortOrder.race_desc;
+    this.choice = "None";
+  }
+
+  filterByYear() {
+    console.log(this.year);
+    this.dataService.getParkrunsByYear(this.year.toString()).pipe(first()).subscribe(parkruns => {
+      this.parkruns = parkruns;
+      this.addRank();
+    });
   }
 
   sortByRace() {
@@ -119,7 +131,7 @@ export class ParkrunComponent implements OnInit {
         break;
       }
     }
-   this.addRank();
+    this.addRank();
   }
 
   addRank() {

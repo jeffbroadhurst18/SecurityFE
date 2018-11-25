@@ -1,4 +1,5 @@
-import { Component, DoCheck,OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from './_services/authentication.service';
 
 @Component({
@@ -7,10 +8,10 @@ import { AuthenticationService } from './_services/authentication.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements DoCheck,OnInit {
-  
+export class AppComponent implements DoCheck, OnInit {
+
   ngOnInit(): void {
-     this.isLoggedIn = this.authenticationService.loggedIn;
+    this.isLoggedIn = this.authenticationService.loggedIn;
   }
 
   isLoggedIn: boolean = false;
